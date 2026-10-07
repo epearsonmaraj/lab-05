@@ -32,6 +32,7 @@ fun CityListScreen(
     cities: List<City>,
     onAddCity: (City) -> Unit,
     onUpdateCity: (City, City) -> Unit,
+    onRemoveCity:(City) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var newCityName by remember { mutableStateOf("") }
@@ -151,7 +152,27 @@ fun CityListScreen(
                         }
                     }
                 ) {
-                    Text("UPDATE CITY")
+                    Text("UPDATE")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Button(
+                    modifier = Modifier.padding(vertical = 12.dp),
+                    onClick = {
+                        val cityToRemove = selectedCity
+                        if (
+                            cityToRemove != null
+                        ) {
+                            onRemoveCity(
+                                cityToRemove
+
+                            )
+
+                            selectedCity = null
+                        }
+                    }
+                ) {
+                    Text("X")
                 }
             }
         }
@@ -202,18 +223,3 @@ fun CityRow(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CityListScreenPreview() {
-    ListyCityTheme {
-        CityListScreen(
-            cities = listOf(
-                City("Edmonton", "AB"),
-                City("Vancouver", "BC"),
-                City("Calgary", "AB")
-            ),
-            onAddCity = {},
-            onUpdateCity = { _, _ -> }
-        )
-    }
-}
